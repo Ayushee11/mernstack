@@ -4,21 +4,17 @@ const dotenv=require('dotenv')
 const app=express()
 
 dotenv.config({path:'./config.env'})
+require('./db/conn')
+//const User=require('./model/userSchema')
+app.use(express.json())
+
+app.use(require('./router/auth'))
 
 const PORT=process.env.PORT
-const DB=process.env.DATABASE
+
 //const PORT=process.env.PORT
 
-mongoose.connect(DB,{
-     useNewUrlParser:true,
-     useCreateIndex:true,
-     useUnifiedTopology:true,
-     useFindAndModify:false
-}).then(()=>{
-     console.log('connection successful')
-}).catch((err)=>{
-     console.log('no connection')
-})
+
 //Middleware
 const middleware=(req,res,next)=>{
      console.log("Hello my middleware")
@@ -27,9 +23,9 @@ const middleware=(req,res,next)=>{
 
 
 
-app.get('/',(req,res)=>{
-     res.send('Hello world from the server')
-})
+// app.get('/',(req,res)=>{
+//      res.send('Hello world from the server from app.js')
+// })
 
 app.get('/about',middleware,(req,res)=>{
      console.log('Hello')
